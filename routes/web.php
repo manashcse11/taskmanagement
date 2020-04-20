@@ -11,6 +11,7 @@
 |
 */
 Route::get('/', 'TaskController@index')->name('home');
+Route::get('projects', 'ProjectController@index')->name('project_list');
 //Route::get('/', function () {
 //    return view('welcome');
 //});

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'Page Title')
+@section('title', 'Task List')
 
 @section('content')
-    <p>This is my body content.</p>
+    <p>This is task list.</p>
 @endsection
