@@ -17,12 +17,14 @@
                 <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                     <div class="navbar-nav">
                         <a class="nav-item nav-link {{ Request::routeIs('home') ? 'active' : '' }}" href="{{ route('home') }}">Tasks</a>
-                        <a class="nav-item nav-link {{ Request::routeIs('project_list') ? 'active' : '' }}" href="{{ route('project_list') }}">Projects</a>
+                        <a class="nav-item nav-link {{ Request::routeIs('projects.index') ? 'active' : '' }}" href="{{ route('projects.index') }}">Projects</a>
                     </div>
                 </div>
             </nav>
+            <div class="mt-5">
+                @yield('content')
+            </div>
 
-            @yield('content')
         </div>
     </body>
 </html>

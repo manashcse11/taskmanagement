@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Project;
 
 class ProjectController extends Controller
 {
@@ -13,7 +14,8 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        $data['projects'] = array();
+        $project = new Project();
+        $data['projects'] = $project->orderby('name')->get();
         return view('project.list', $data);
     }
 
@@ -24,7 +26,7 @@ class ProjectController extends Controller
      */
     public function create()
     {
-        //
+        return view('project.create');
     }
 
     /**
@@ -35,7 +37,12 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->project_validate($request);
+        $project = new Project();
+        if($this->project_insert_or_update($request, $project)){
+            $request->session()->flash('status', 'Project added successfully!');
+            return redirect()->route('projects.index');
+        }
     }
 
     /**
@@ -57,7 +64,8 @@ class ProjectController extends Controller
      */
     public function edit($id)
     {
-        //
+        $data['project'] = Project::find($id);
+        return view('project.edit', $data);
     }
 
     /**
@@ -67,9 +75,13 @@ class ProjectController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Project $project)
     {
-        //
+        $this->project_validate($request, $project->id);
+        if($this->project_insert_or_update($request, $project)){
+            $request->session()->flash('status', 'Project saved successfully!');
+            return redirect()->route('projects.index');
+        }
     }
 
     /**
@@ -81,5 +93,30 @@ class ProjectController extends Controller
     public function destroy($id)
     {
         //
+    }
+    /**
+     * Non conventional Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function delete(Request $request, Project $project)
+    {
+        if($project->delete()){
+            $request->session()->flash('status', 'Project has been deleted!');
+            return redirect()->route('projects.index');
+        }
+    }
+    public function project_validate($request, $id = ''){
+        return $validated = $request->validate([
+            'name' => 'required|unique:projects,name,' . $id
+        ]);
+    }
+    public function project_insert_or_update($request, $obj){
+        $obj->name = $request->name;
+        if($obj->save()){
+            return true;
+        }
+        return false;
     }
 }

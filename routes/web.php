@@ -11,7 +11,9 @@
 |
 */
 Route::get('/', 'TaskController@index')->name('home');
-Route::get('projects', 'ProjectController@index')->name('project_list');
+Route::resource('projects', 'ProjectController');
+Route::get('projects/{project}/delete', 'ProjectController@delete')->name('projects.delete'); // Manually delete using GET method
+Route::get('projects/{project}/task', 'ProjectController@tasks')->name('tasks_by_project');
 //Route::get('/', function () {
 //    return view('welcome');
 //});
