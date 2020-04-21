@@ -9,23 +9,23 @@
             {{ session('status') }}
         </div>
     @endif
-    @if (count($tasks) > 0)
-        <form method="GET" action="{{ route('home') }}">
-            @csrf
-            <div class="row">
-                <div class="form-group col-sm-4">
-                    <label for="name">Project</label>
-                    <select id="project_id" name="project_id" class="form-control">
-                        <option value="">All Project</option>
-                        @foreach ($projects as $project)
-                            <option value="{{$project->id}}" {{ $project->id == request('project_id') ? 'selected' : '' }}>{{$project->name}}</option>
-                        @endforeach
-                    </select>
-                    <small class="text-danger">{{ $errors->first('project') }}</small>
-                </div>
+    <form method="GET" action="{{ route('home') }}">
+        @csrf
+        <div class="row">
+            <div class="form-group col-sm-4">
+                <label for="name">Project</label>
+                <select id="project_id" name="project_id" class="form-control">
+                    <option value="">All Project</option>
+                    @foreach ($projects as $project)
+                        <option value="{{$project->id}}" {{ $project->id == request('project_id') ? 'selected' : '' }}>{{$project->name}}</option>
+                    @endforeach
+                </select>
+                <small class="text-danger">{{ $errors->first('project') }}</small>
             </div>
-            <button type="submit" class="btn btn-primary">Search</button>
-        </form>
+        </div>
+        <button type="submit" class="btn btn-primary">Search</button>
+    </form>
+    @if (count($tasks) > 0)
         <div class="row">
             @foreach ($tasks as $task)
                 <div class="col-sm-12 mt-3">

@@ -67,7 +67,9 @@ class TaskController extends Controller
      */
     public function edit($id)
     {
-        //
+        $data['task'] = Task::find($id);
+        $data['projects'] = Project::orderby('name')->get();
+        return view('task.edit', $data);
     }
 
     /**
@@ -77,9 +79,13 @@ class TaskController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Task $task)
     {
-        //
+        $this->task_validate($request, $task->id);
+        if($this->task_insert_or_update($request, $task)){
+            $request->session()->flash('status', 'Task saved successfully!');
+            return redirect()->route('tasks.index');
+        }
     }
 
     /**
@@ -91,6 +97,20 @@ class TaskController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    /**
+     * Non conventional Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function delete(Request $request, Task $task)
+    {
+        if($task->delete()){
+            $request->session()->flash('status', 'Task has been deleted!');
+            return redirect()->route('tasks.index');
+        }
     }
 
     public function task_validate($request, $id = ''){
