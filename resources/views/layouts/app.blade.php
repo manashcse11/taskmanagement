@@ -10,9 +10,10 @@
 
         <!-- Styles -->
         <link rel="stylesheet" href="/css/app.css">
+        <script src="{{ asset('js/app.js') }}" ></script>
     </head>
     <body>
-        <div class="container">
+    <div class="container">
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
                 <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                     <div class="navbar-nav">

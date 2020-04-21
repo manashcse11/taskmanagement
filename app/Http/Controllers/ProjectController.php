@@ -107,6 +107,14 @@ class ProjectController extends Controller
             return redirect()->route('projects.index');
         }
     }
+
+    public function tasks($project_id)
+    {
+        $project = new Project();
+        $data['tasks'] = $project->get_tasks($project_id);
+        return view('task.list', $data);
+    }
+
     public function project_validate($request, $id = ''){
         return $validated = $request->validate([
             'name' => 'required|unique:projects,name,' . $id

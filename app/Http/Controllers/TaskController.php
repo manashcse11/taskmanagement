@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Task;
+use App\Project;
 use Illuminate\Http\Request;
 
 class TaskController extends Controller
@@ -11,9 +13,11 @@ class TaskController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $data['tasks'] = array();
+        $task = new Task();
+        $data['tasks'] = $task->get_tasks($request->all());
+        $data['projects'] = Project::orderby('name')->get();
         return view('task.list', $data);
     }
 
@@ -24,7 +28,8 @@ class TaskController extends Controller
      */
     public function create()
     {
-        //
+        $data['projects'] = Project::orderby('name')->get();
+        return view('task.create', $data);
     }
 
     /**
@@ -35,7 +40,12 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->task_validate($request);
+        $task = new Task();
+        if($this->task_insert_or_update($request, $task)){
+            $request->session()->flash('status', 'Task added successfully!');
+            return redirect()->route('tasks.index');
+        }
     }
 
     /**
@@ -81,5 +91,22 @@ class TaskController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function task_validate($request, $id = ''){
+        return $validated = $request->validate([
+            'name' => 'required',
+            'project' => 'required',
+            'priority' => 'numeric'
+        ]);
+    }
+    public function task_insert_or_update($request, $obj){
+        $obj->name = $request->name;
+        $obj->project_id = $request->project;
+        $obj->priority = $request->priority;
+        if($obj->save()){
+            return true;
+        }
+        return false;
     }
 }
