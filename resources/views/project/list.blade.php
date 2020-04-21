@@ -17,7 +17,6 @@
                     <div class="card-body">
                         {{ $project->name }}
                         <div class="text-right">
-                            <a href="{{ route('tasks_by_project', $project->id) }}"><span class="badge badge-pill badge-info">View tasks</span></a>
                             <a href="{{ route('projects.edit', $project->id) }}"><span class="badge badge-pill badge-warning">Edit</span></a>
                             <a href="{{ route('projects.delete', $project->id) }}"><span class="badge badge-pill badge-danger">Delete</span></a>
                         </div>

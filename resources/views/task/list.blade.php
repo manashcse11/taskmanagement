@@ -33,7 +33,6 @@
                         <div class="card-body">
                             {{ $task->name }}
                             <div class="text-right">
-                                <a href="{{ route('tasks_by_project', $task->project->id) }}"><span class="badge badge-pill badge-info">Project: {{ $task->project->name }}</span></a>
                                 <a href="{{ route('tasks.edit', $task->id) }}"><span class="badge badge-pill badge-warning">Edit</span></a>
                                 <a href="{{ route('tasks.delete', $task->id) }}"><span class="badge badge-pill badge-danger">Delete</span></a>
                             </div>
