@@ -17,6 +17,7 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
  */
 global.$ = global.jQuery = require('jquery');
 
+
 // import Echo from 'laravel-echo';
 
 // window.Pusher = require('pusher-js');

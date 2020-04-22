@@ -13,6 +13,7 @@
 Route::resource('tasks', 'TaskController');
 Route::get('/', 'TaskController@index')->name('home');
 Route::get('tasks/{task}/delete', 'TaskController@delete')->name('tasks.delete'); // Manually delete using GET method
+Route::post('tasks/reorder', 'TaskController@ajax_reorder')->name('tasks.reorder');
 Route::resource('projects', 'ProjectController');
 Route::get('projects/{project}/delete', 'ProjectController@delete')->name('projects.delete'); // Manually delete using GET method
 //Route::get('/', function () {

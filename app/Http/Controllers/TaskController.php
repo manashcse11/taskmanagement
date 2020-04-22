@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Task;
 use App\Project;
 use Illuminate\Http\Request;
+use Response;
 
 class TaskController extends Controller
 {
@@ -111,6 +112,18 @@ class TaskController extends Controller
             $request->session()->flash('status', 'Task has been deleted!');
             return redirect()->route('tasks.index');
         }
+    }
+
+    public function ajax_reorder(Request $request){
+        if ($request->has('sorted_task')) {
+            foreach ($request->sorted_task as $key => $val) {
+                $task = Task::find($val);
+                $task->priority = $key + 1;
+                $task->save();
+            }
+            return Response::json(array('success' => true));
+        }
+        return Response::json(array('success' => false));
     }
 
     public function task_validate($request, $id = ''){
